@@ -25,7 +25,7 @@ namespace ChuckSwapi.Core.Business
 
         public ResponseModel GetAllStarWarzPeople()
         {
-            var response = SwapiPeopleService.GetStarWarzPeople(_config, _clientfactory);
+            var response = SwapiPeopleService.GetStarWarzPeople(_config);
             if (response.count == 0)
                 return new ResponseModel
                 {
