@@ -42,7 +42,11 @@ namespace ChuckSwapi
            }));
             services.AddTransient<ICategory, CategoryBusiness>();
             services.AddTransient<IPeople, PeopleBusiness>();
-            services.AddControllers();
+            services.AddTransient<ISearch, SearchBusiness>();
+            services.AddControllersWithViews()
+                                     .AddNewtonsoftJson(options =>
+                                      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ChuckSwapi", Version = "v1" });
