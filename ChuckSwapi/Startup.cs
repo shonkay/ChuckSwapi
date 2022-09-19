@@ -30,7 +30,7 @@ namespace ChuckSwapi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient("Chucks Client", client => {
-                client.BaseAddress = new Uri(Configuration["ChuckSwapi:ChuckBaserl"]);
+                client.BaseAddress = new Uri(Configuration["ChuckSwapi:ChuckBaseUrl"]);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             })
            // Add the re-try policy: in this instance, re-try three times,
@@ -41,6 +41,7 @@ namespace ChuckSwapi
                 TimeSpan.FromSeconds(10)
            }));
             services.AddTransient<ICategory, CategoryBusiness>();
+            services.AddTransient<IPeople, PeopleBusiness>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
