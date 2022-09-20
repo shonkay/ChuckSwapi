@@ -1,5 +1,6 @@
 using ChuckSwapi.Core.Business;
 using ChuckSwapi.Core.Interface;
+using ChuckSwapi.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -64,7 +65,7 @@ namespace ChuckSwapi
             }
 
             app.UseHttpsRedirection();
-
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
             app.UseRouting();
 
             app.UseAuthorization();
