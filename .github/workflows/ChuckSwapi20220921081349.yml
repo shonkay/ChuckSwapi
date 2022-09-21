@@ -2,7 +2,7 @@ name: Build and deploy .NET Core application to Web App ChuckSwapi20220921081349
 on:
   push:
     branches:
-    - Exception_Handling
+    - Dev
 env:
   AZURE_WEBAPP_NAME: ChuckSwapi20220921081349
   AZURE_WEBAPP_PACKAGE_PATH: ChuckSwapi/published
