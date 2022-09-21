@@ -46,8 +46,13 @@ namespace ChuckSwapi
             services.AddTransient<ISearch, SearchBusiness>();
             services.AddControllersWithViews()
                                      .AddNewtonsoftJson(options =>
-                                      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+                                      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddCors(o =>
+            {
+                o.AddDefaultPolicy(builder => builder.AllowAnyHeader()
+                                                       .AllowAnyMethod()
+                                                       .AllowAnyOrigin());
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ChuckSwapi", Version = "v1" });
@@ -66,7 +71,9 @@ namespace ChuckSwapi
             app.UseHttpsRedirection();
             app.UseMiddleware<ExceptionHandlerMiddleware>();
             app.UseRouting();
-
+            app.UseCors(x => x.AllowAnyOrigin()
+                              .AllowAnyHeader()
+                              .AllowAnyOrigin());
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
