@@ -33,11 +33,24 @@ namespace ChuckSwapi.Core.Business
                     ResponseData = null,
                     ResponseMessage = "No Data Found"
                 };
-
+            var categories = new List<Category>();
+            int CatId = 0;
+            foreach(var category in response)
+            {
+                CatId++;
+                var entity = new Category
+                {
+                    CategoryName = category,
+                    DateCreated = DateTime.Now.ToString(),
+                    Id = CatId,
+                    Status = "Created"
+                };
+                categories.Add(entity);
+            }
             return new ResponseModel
             {
                 ResponseCode = HttpStatusCode.OK,
-                ResponseData = response,
+                ResponseData = categories,
                 ResponseMessage = "Success"
             };
         }

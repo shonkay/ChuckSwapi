@@ -63,7 +63,6 @@ namespace ChuckSwapi
             }
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ChuckSwapi v1"));
-
             app.UseHttpsRedirection();
             app.UseMiddleware<ExceptionHandlerMiddleware>();
             app.UseRouting();
