@@ -50,5 +50,25 @@ namespace ExternalService
                 throw new Exception(decodeResponse);
             }
         }
+
+
+        public static async Task<SingleCategoryResponse> GetCategory(IConfiguration config, IHttpClientFactory clientFactory, string category)
+        {
+            var resourceuri = String.Format(config.GetValue<string>("ChuckSwapi:ChuckCategory"), category);
+            var client = clientFactory.CreateClient("Chucks Client");
+
+            var response = await client.GetAsync(resourceuri);
+            var decodeResponse = response.Content.ReadAsStringAsync().Result;
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var result = JsonConvert.DeserializeObject<SingleCategoryResponse>(decodeResponse);
+                return result;
+            }
+            else
+            {
+                throw new Exception(decodeResponse);
+            }
+        }
     }
 }

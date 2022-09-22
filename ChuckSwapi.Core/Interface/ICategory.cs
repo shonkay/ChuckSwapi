@@ -10,5 +10,6 @@ namespace ChuckSwapi.Core.Interface
     public interface ICategory
     {
         Task<ResponseModel> GetAllCategories();
+        Task<ResponseModel> GetCategory(string category);
     }
 }

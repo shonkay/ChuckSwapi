@@ -54,5 +54,24 @@ namespace ChuckSwapi.Core.Business
                 ResponseMessage = "Success"
             };
         }
+
+
+        public async Task<ResponseModel> GetCategory(string category)
+        {
+            var response = await ChuckCategoriesService.GetCategory(_config, _clientFactory, category);
+            if(response == null)
+                return new ResponseModel
+                {
+                    ResponseCode = HttpStatusCode.NoContent,
+                    ResponseData = null,
+                    ResponseMessage = "No Data Found"
+                };
+            return new ResponseModel
+            {
+                ResponseCode = HttpStatusCode.OK,
+                ResponseData = response,
+                ResponseMessage = "Success"
+            };
+        }
     }
 }
