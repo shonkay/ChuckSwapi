@@ -33,7 +33,39 @@ namespace ChuckSwapi.Core.Business
                     ResponseData = null,
                     ResponseMessage = "No Data Found"
                 };
+            var categories = new List<Category>();
+            int CatId = 0;
+            foreach(var category in response)
+            {
+                CatId++;
+                var entity = new Category
+                {
+                    CategoryName = category,
+                    DateCreated = DateTime.Now.ToString(),
+                    Id = CatId,
+                    Status = "Created"
+                };
+                categories.Add(entity);
+            }
+            return new ResponseModel
+            {
+                ResponseCode = HttpStatusCode.OK,
+                ResponseData = categories,
+                ResponseMessage = "Success"
+            };
+        }
 
+
+        public async Task<ResponseModel> GetCategory(string category)
+        {
+            var response = await ChuckCategoriesService.GetCategory(_config, _clientFactory, category);
+            if(response == null)
+                return new ResponseModel
+                {
+                    ResponseCode = HttpStatusCode.NoContent,
+                    ResponseData = null,
+                    ResponseMessage = "No Data Found"
+                };
             return new ResponseModel
             {
                 ResponseCode = HttpStatusCode.OK,

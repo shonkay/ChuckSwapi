@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace ChuckSwapi.Core.Interface
 {
-    public interface ICategory
+    public interface ISearch
     {
-        Task<ResponseModel> GetAllCategories();
-        Task<ResponseModel> GetCategory(string category);
+        Task<ResponseModel> Search(string param);
     }
 }

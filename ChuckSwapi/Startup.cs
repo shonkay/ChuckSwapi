@@ -1,5 +1,6 @@
 using ChuckSwapi.Core.Business;
 using ChuckSwapi.Core.Interface;
+using ChuckSwapi.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,7 +31,7 @@ namespace ChuckSwapi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient("Chucks Client", client => {
-                client.BaseAddress = new Uri(Configuration["ChuckSwapi:ChuckBaserl"]);
+                client.BaseAddress = new Uri(Configuration["ChuckSwapi:ChuckBaseUrl"]);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             })
            // Add the re-try policy: in this instance, re-try three times,
@@ -41,7 +42,17 @@ namespace ChuckSwapi
                 TimeSpan.FromSeconds(10)
            }));
             services.AddTransient<ICategory, CategoryBusiness>();
-            services.AddControllers();
+            services.AddTransient<IPeople, PeopleBusiness>();
+            services.AddTransient<ISearch, SearchBusiness>();
+            services.AddControllersWithViews()
+                                     .AddNewtonsoftJson(options =>
+                                      options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddCors(o =>
+            {
+                o.AddDefaultPolicy(builder => builder.AllowAnyHeader()
+                                                       .AllowAnyMethod()
+                                                       .AllowAnyOrigin());
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ChuckSwapi", Version = "v1" });
@@ -54,14 +65,15 @@ namespace ChuckSwapi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ChuckSwapi v1"));
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ChuckSwapi v1"));
             app.UseHttpsRedirection();
-
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
             app.UseRouting();
-
+            app.UseCors(x => x.AllowAnyOrigin()
+                              .AllowAnyHeader()
+                              .AllowAnyOrigin());
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

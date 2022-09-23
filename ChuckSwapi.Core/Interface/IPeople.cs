@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ChuckSwapi.Core.Interface
 {
-    public interface ICategory
+    public interface IPeople
     {
-        Task<ResponseModel> GetAllCategories();
-        Task<ResponseModel> GetCategory(string category);
+        ResponseModel GetAllStarWarzPeople();
+
     }
 }

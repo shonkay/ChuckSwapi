@@ -22,5 +22,12 @@ namespace ChuckSwapi.Controllers
             var response = await _category.GetAllCategories();
             return Ok(response);
         }
+
+        [HttpGet("[action]/{category}")]
+        public async Task<IActionResult> Category(string category)
+        {
+            var response = await _category.GetCategory(category);
+            return Ok(response);
+        }
     }
 }
